@@ -972,7 +972,7 @@ limitations under the License.
                     $scope.scale.selectReportOrg($scope.scale.reportOrgsSelectedNode);
 
                     
-                    $scope.scale.portalOrgs = [JSON.parse(JSON.stringify(response.data))];
+                    $scope.scale.portalOrgs = [$scope.scale.cleanPortalOrgs(JSON.parse(JSON.stringify(response.data)))];
                     $scope.scale.portalOrgsSelectedNode = $scope.scale.portalOrgs[0];
                     $scope.scale.portalOrgsExpandedNodes = [$scope.scale.portalOrgs[0]];
                     $scope.scale.selectPortalOrgs($scope.scale.portalOrgsSelectedNode);

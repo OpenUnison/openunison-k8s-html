@@ -47,7 +47,7 @@ InputOptions.prototype = {
 
 
 (function(){
-  var app = angular.module('scale',['treeControl','ngSanitize']);
+  var app = angular.module('scale',['ngSanitize']);
 
 
 
