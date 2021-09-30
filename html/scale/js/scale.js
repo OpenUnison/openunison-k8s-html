@@ -979,7 +979,7 @@ limitations under the License.
 
                     var urlsUrl = 'main/urls';
                     if ($scope.scale.config.showPortalOrgs) {
-                      urlsUrl = urlsUrl + '/org/' + $scope.scale.portalOrgsSelectedNode.uuid; 
+                      urlsUrl = urlsUrl + '/org/' + $scope.scale.portalOrgsSelectedNode.id; 
                     }
 
                     $http.get(urlsUrl).then(

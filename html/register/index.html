@@ -67,8 +67,8 @@ limitations under the License.
 			        <span class="icon-bar"></span>
 			        <span class="icon-bar"></span>
 			      </button>
-			      <img class="hidden-xs" src="images/logo-desktop.png"  width="85%" alt="scale"/>
-			      <img class="visible-xs img-responsive" src="images/logo-mobile.png" alt="scale" />
+			      <img class="hidden-xs" src="logos/logo-desktop.png"  width="85%" alt="scale"/>
+			      <img class="visible-xs img-responsive" src="logos/logo-mobile.png" alt="scale" />
 			    </div>
 			    <div class="navbar-collapse collapse">
 			      <ul class="nav navbar-nav">
@@ -95,8 +95,8 @@ limitations under the License.
 			        <span class="icon-bar"></span>
 			        <span class="icon-bar"></span>
 			      </button>
-			      <img class="hidden-xs" src="images/logo-desktop.png"  width="85%" alt="scale"/>
-			      <img class="visible-xs img-responsive" src="images/logo-mobile.png" alt="scale" />
+			      <img class="hidden-xs" src="logos/logo-desktop.png"  width="85%" alt="scale"/>
+			      <img class="visible-xs img-responsive" src="logos/logo-mobile.png" alt="scale" />
 			    </div>
 			    <div class="navbar-collapse collapse">
 			      <ul class="nav navbar-nav">
@@ -123,8 +123,8 @@ limitations under the License.
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>
 	      </button>
-	      <img class="hidden-xs" src="images/logo-desktop.png"  width="85%" alt="scale"/>
-	      <img class="visible-xs img-responsive" src="images/logo-mobile.png" alt="scale" />
+	      <img class="hidden-xs" src="logos/logo-desktop.png"  width="85%" alt="scale"/>
+	      <img class="visible-xs img-responsive" src="logos/logo-mobile.png" alt="scale" />
 	    </div>
 	    <div class="navbar-collapse collapse">
 	      <ul class="nav navbar-nav">
