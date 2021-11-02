@@ -92,20 +92,27 @@ InputOptions.prototype = {
         	grecaptcha.reset();
         }
 
+        var userToSubmit = {
+          attributes: {},
+          reason: $scope.scale.newUser.reason
+        }
+
         for (var i in $scope.scale.config.attributes) {
           if ($scope.scale.config.attributes[i].type == 'list') {
 
               if (typeof $scope.scale.newUser.attributes[$scope.scale.config.attributes[i].name] == 'undefined') {
-                $scope.scale.newUser.attributes[$scope.scale.config.attributes[i].name] = "";
+                //$scope.scale.newUser.attributes[$scope.scale.config.attributes[i].name] = "";
+                userToSubmit.attributes[$scope.scale.config.attributes[i].name] = "";
               } else {
-                $scope.scale.newUser.attributes[$scope.scale.config.attributes[i].name] = $scope.scale.newUser.attributes[$scope.scale.config.attributes[i].name].value;
+                userToSubmit.attributes[$scope.scale.config.attributes[i].name] = $scope.scale.newUser.attributes[$scope.scale.config.attributes[i].name].value;
+                //$scope.scale.newUser.attributes[$scope.scale.config.attributes[i].name] = $scope.scale.newUser.attributes[$scope.scale.config.attributes[i].name].value;
               }
 
 
           }
         }
 
-        $http.post('register/submit',this.newUser).then(
+        $http.post('register/submit',userToSubmit).then(
           function(response) {
             $scope.scale.showModal = false;
             $scope.scale.saveUserDisabled = false;
