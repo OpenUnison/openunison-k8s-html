@@ -98,7 +98,7 @@ InputOptions.prototype = {
         }
 
         for (var i in $scope.scale.config.attributes) {
-          if ($scope.scale.config.attributes[i].type == 'list') {
+          //if ($scope.scale.config.attributes[i].type == 'list') {
 
               if (typeof $scope.scale.newUser.attributes[$scope.scale.config.attributes[i].name] == 'undefined') {
                 //$scope.scale.newUser.attributes[$scope.scale.config.attributes[i].name] = "";
@@ -109,7 +109,7 @@ InputOptions.prototype = {
               }
 
 
-          }
+          //}
         }
 
         $http.post('register/submit',userToSubmit).then(
