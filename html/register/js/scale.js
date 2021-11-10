@@ -98,9 +98,9 @@ InputOptions.prototype = {
         }
 
         for (var i in $scope.scale.config.attributes) {
-          //if ($scope.scale.config.attributes[i].type == 'list') {
+          if ($scope.scale.config.attributes[i].type == 'list') {
 
-              if (typeof $scope.scale.newUser.attributes[$scope.scale.config.attributes[i].name] == 'undefined') {
+              if (typeof $scope.scale.newUser.attributes[$scope.scale.config.attributes[i].name].value == 'undefined') {
                 //$scope.scale.newUser.attributes[$scope.scale.config.attributes[i].name] = "";
                 userToSubmit.attributes[$scope.scale.config.attributes[i].name] = "";
               } else {
@@ -109,7 +109,9 @@ InputOptions.prototype = {
               }
 
 
-          //}
+          } else {
+            userToSubmit.attributes[$scope.scale.config.attributes[i].name] = $scope.scale.newUser.attributes[$scope.scale.config.attributes[i].name];
+          }
         }
 
         $http.post('register/submit',userToSubmit).then(
