@@ -13,47 +13,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-
-
-function InputOptions( arr ) {
-    for ( var i = 0; i < arr.length; i += 1 ) {
-        this[i] = arr[i];
-    }
-
-    // length is readonly
-    Object.defineProperty( this, 'length', {
-        get: function () {
-            return arr.length;
-        }
-    });
-
-    // a HTMLCollection is immutable
-    Object.freeze( this );
-}
-
-InputOptions.prototype = {
-    item: function ( i ) {
-        return this[i] != null ? this[i] : null;
-    },
-    namedItem: function ( name ) {
-        for ( var i = 0; i < this.length; i += 1 ) {
-            if ( this[i].id === name || this[i].name === name ) {
-                return this[i];
-            }
-        }
-        return null;
-    }
-};
-
-
 (function(){
-  var app = angular.module('scale',['ngSanitize']);
+  var app = angular.module('scale',['treeControl']);
 
 
 
 
 
-    app.controller('ScaleController',['$compile', '$scope','$window','$http','$interval',function($compile, $scope, $window, $http,$interval){
+    app.controller('ScaleController',['$compile', '$scope','$window','$http',function($compile, $scope, $window, $http){
 
 
       this.appIsError = false;
@@ -65,10 +32,8 @@ InputOptions.prototype = {
 
       this.modalTitle;
       this.modalMessage;
+      this.requestReason = "";
 
-      this.newUser = {};
-      this.attributeConfigs = [];
-      this.showForm = true;
 
 
 
@@ -80,66 +45,34 @@ InputOptions.prototype = {
           window.location = this.config.logoutURL;
       };
 
-      this.cancelRequest = function() {
-        window.location = this.config.homeURL;
-      };
 
-      this.saveUser = function() {
-        this.modalMessage = "Submitting Registration...";
+      this.saveSingleRequest = function() {
+        this.modalMessage = "Setting Password...";
         this.showModal = true;
-        $scope.scale.saveUserDisabled = true;
-        $scope.scale.saveUserSuccess = false;
+        $scope.scale.sumbitRequestDisabled = true;
+        $scope.scale.sumbitRequestSuccess = false;
 
-        if ($scope.scale.config.requireReCaptcha) {
-        	$scope.scale.newUser.reCaptchaCode = grecaptcha.getResponse();
-        	grecaptcha.reset();
-        }
+        req = {};
+        req['password1'] = this.password1;
+        req['password2'] = this.password2;
 
-        var userToSubmit = {
-          attributes: {},
-          reason: $scope.scale.newUser.reason
-        }
-
-        for (var i in $scope.scale.config.attributes) {
-          if ($scope.scale.config.attributes[i].type == 'list') {
-
-              if (typeof $scope.scale.newUser.attributes[$scope.scale.config.attributes[i].name].value == 'undefined') {
-                //$scope.scale.newUser.attributes[$scope.scale.config.attributes[i].name] = "";
-                userToSubmit.attributes[$scope.scale.config.attributes[i].name] = "";
-              } else {
-                userToSubmit.attributes[$scope.scale.config.attributes[i].name] = $scope.scale.newUser.attributes[$scope.scale.config.attributes[i].name].value;
-                //$scope.scale.newUser.attributes[$scope.scale.config.attributes[i].name] = $scope.scale.newUser.attributes[$scope.scale.config.attributes[i].name].value;
-              }
-
-
-          } else {
-            userToSubmit.attributes[$scope.scale.config.attributes[i].name] = $scope.scale.newUser.attributes[$scope.scale.config.attributes[i].name];
-          }
-        }
-
-        $http.post('register/submit',userToSubmit).then(
+        $http.post('password/submit',req).then(
           function(response) {
             $scope.scale.showModal = false;
-            $scope.scale.saveUserDisabled = false;
-            $scope.scale.newUser = {};
-            $scope.scale.newUser.attributes = {};
+            $scope.scale.sumbitRequestDisabled = false;
+            $scope.scale.requestReason = "";
 
-            for (var i in $scope.scale.config.attributes) {
-              $scope.scale.newUser.attributes[$scope.scale.config.attributes[i].name] = '';
-            };
 
-            $scope.scale.saveUserSuccess = true;
-            $scope.scale.saveUserErrors = [];
-            
-            $scope.scale.showForm = response.addNewUsers;
-            
+
+
+            $scope.scale.saveRequestSuccess = true;
+            $scope.scale.saveRequestErrors = [];
           },
           function(response) {
-            $scope.scale.saveUserErrors = response.data.errors;
+            $scope.scale.saveRequestErrors = response.data.errors;
             $scope.scale.showModal = false;
-            $scope.scale.saveUserDisabled = false;
-            $scope.scale.saveUserSuccess = false;
-            $scope.scale.showForm = true;
+            $scope.scale.sumbitRequestDisabled = false;
+            $scope.scale.saveRequestSuccess = false;
           }
         );
       };
@@ -170,7 +103,8 @@ InputOptions.prototype = {
 
       this.setSessionLoadedComplete = function() {
         this.sessionLoaded = true;
-
+        this.sumbitRequestDisabled = false;
+        this.requestReason = "";
       }
 
       this.isMobile = function() {
@@ -178,96 +112,29 @@ InputOptions.prototype = {
         var mobile = (ow <= 991);
         return ! mobile;
       };
-      
-      
 
-      this.change_text_control = function(attr_cfg) {
-    	  
-    	  if (attr_cfg != null) {
-    		  $http.get('register/values?name=' + attr_cfg.name + '&search=' + $scope.scale.newUser.attributes[attr_cfg.name]).then(
-    				  function(response) {
-    					  
-    					  attr_cfg.values = response.data;
-    					  
-    					  this.edit_event(attr_cfg);
-    					  
-    				  },
-    				  function(response) {
-    					  
-    				  }
-    				  
-    		  );
-    	  }
-      
-      
-      }
-      
-      this.edit_event = function(attr_cfg) {
-        
-      	if ('editJavaScriptFunction' in attr_cfg) {
-      		eval(attr_cfg.editJavaScriptFunction);
-      	}
-      	
-      }
+
+
 
       angular.element(document).ready(function () {
 
 
 
-        $http.get('register/config').then(
+        $http.get('password/config').then(
           function(response) {
-            $scope.scale.config = response.data;
 
-            if (! $scope.scale.config.submitButtonText) {
-              $scope.scale.config.submitButtonText = "Submit Registration";
-            }
+	    	  try {
+	          	JSON.parse(JSON.stringify(response.data));
+	          } catch (e) {
+	          	location.reload(true);
+	          }
 
-            if (! $scope.scale.config.submittedText) {
-              $scope.scale.config.submittedText = 'Thank you for registering, your request has been submitted and you will be notified once approved';
-            }
-
-            $scope.scale.displayName = '';
-            $scope.scale.newUser.attributes = {};
-            $scope.scale.newUser.extraData = {};
-
-            $scope.scale.attributeConfigs = [];
-            
-            
-            for (var i in $scope.scale.config.attributeNameList) {
-              $scope.scale.newUser.attributes[$scope.scale.config.attributeNameList[i]] = '';
-              //$scope.scale.config.attributes[$scope.scale.config.attributeNameList[i]].show = true;
-              $scope.scale.attributeConfigs.push($scope.scale.config.attributes[$scope.scale.config.attributeNameList[i]]);
-            };
+            $scope.scale.config = response.data.config;
+            $scope.scale.displayName = response.data.displayName;
 
             $scope.scale.setSessionLoadedComplete();
             $scope.scale.appIsError = false;
-
-
-            if ($scope.scale.config.requireReCaptcha) {
-            	if (typeof grecaptcha != "undefined") {
-	            	grecaptcha.render('recaptcha', {
-	                    'sitekey' : $scope.scale.config.rcSiteKey
-	                  });
-            	} else {
-
-
-            		$interval(function() {
-            			if (captchaloaded == true) {
-
-            				grecaptcha.render('recaptcha', {
-        	                    'sitekey' : $scope.scale.config.rcSiteKey
-        	                  });
-
-            				captchaloaded = false;
-            			}
-            		},1000,10);
-
-
-
-
-            	}
-            }
-
+            //$scope.$apply();
 
 
 
