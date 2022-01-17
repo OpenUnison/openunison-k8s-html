@@ -117,6 +117,14 @@ InputOptions.prototype = {
           }
         }
 
+        if ($scope.scale.config.requireReCaptcha) {
+          userToSubmit.reCaptchaCode = $scope.scale.newUser.reCaptchaCode;
+        }
+
+        if ($scope.scale.config.requireTermsAndConditions) {
+          userToSubmit.checkedTermsAndConditions = $scope.scale.newUser.checkedTermsAndConditions;
+        }
+
         $http.post('register/submit',userToSubmit).then(
           function(response) {
             $scope.scale.showModal = false;
@@ -127,6 +135,8 @@ InputOptions.prototype = {
             for (var i in $scope.scale.config.attributes) {
               $scope.scale.newUser.attributes[$scope.scale.config.attributes[i].name] = '';
             };
+
+            $scope.scale.newUser.checkedTermsAndConditions = false;
 
             $scope.scale.saveUserSuccess = true;
             $scope.scale.saveUserErrors = [];
