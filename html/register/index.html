@@ -194,7 +194,7 @@ limitations under the License.
 							<div class="row" ng-repeat="attributeConfig in scale.attributeConfigs">
 								<div class="col-md-4" ng-show="attributeConfig.show">{{ attributeConfig.displayName}}
 								</div>
-								<div class="col-md-4" ng-show="attributeConfig.show">
+								<div class="col-md-6" ng-show="attributeConfig.show">
 
 									<input type="text" ng-show="attributeConfig.type == 'text'"
 										ng-model="scale.newUser.attributes[attributeConfig.name]"
@@ -324,6 +324,10 @@ limitations under the License.
 	<script type="text/javascript" src="js/angular-tree-control.js"></script>
 	<script type="text/javascript" src="js/angular-sanitize.min.js"></script>
 
+	<script src="js/scale.js"></script>
+	<script src="js/update_new_project.js"></script>
+	<script src="js-ext/functions.js"></script>
+
 	<input ng-hide="! scale.config.requireReCaptcha" type="hidden" id="dummyRcSiteKey" value={{scale.config.rcSiteKey}}>
  
                     <script ng-hide="! scale.config.requireReCaptcha" type="text/javascript">
@@ -347,9 +351,7 @@ limitations under the License.
 
 	<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
 
-	<script src="js/scale.js"></script>
-	<script src="js/update_new_project.js"></script>
-	<script src="js-ext/functions.js"></script>
+	
 </body>
 
 </html>
