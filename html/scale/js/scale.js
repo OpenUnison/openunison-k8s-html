@@ -256,27 +256,88 @@ limitations under the License.
         this.reportErrors = [];
 
 
-        $http.get(url).then(
+        newReportUrl = 'main/reports/excelx';
+
+        $http.get(newReportUrl).then(
+          function(response) {
+            // supports the latest API
+            $http(
+              {
+                method: 'PUT',
+                url: 'main/reports/excelx',
+                responseType: 'blob',
+                data: $scope.scale.reportData.data
+              }
+            ).then(
+              function(response) {
+                var suggestedFileName = $scope.scale.currentReport.name + '.xlsx';
+                var dataBlob = response.data;
+                if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+                  // for IE
+                  window.navigator.msSaveOrOpenBlob(dataBlob, suggestedFileName);
+               } else {
+                  // for Non-IE (chrome, firefox etc.)
+                  var urlObject = URL.createObjectURL(dataBlob);
+            
+                  var downloadLink = angular.element('<a>Download</a>');
+                  downloadLink.css('display','none');
+                  downloadLink.attr('href', urlObject);
+                  downloadLink.attr('download', suggestedFileName);
+                  angular.element(document.body).append(downloadLink);
+                  downloadLink[0].click();
+            
+                  // cleanup
+                  downloadLink.remove();
+                  URL.revokeObjectURL(urlObject);
+              }
+
+
+                $scope.scale.reportsShowParams = false;
+                $scope.scale.reportsShowMain = false;
+                $scope.scale.reportsShowReport = true;
+                $scope.scale.reportErrors = [];
+                $scope.scale.showModal = false;
+
+              },
+              function(response) {
+                $scope.scale.reportsShowParams = false;
+                $scope.scale.reportsShowMain = false;
+                $scope.scale.reportsShowReport = true;
+                $scope.scale.showModal = false;
+              }
+
+            );
+          },
           function(response) {
 
-            var uri = 'main/reports/excel/' + encodeURIComponent(response.data.reportid) + '/' + encodeURIComponent($scope.scale.currentReport.name) + '.xlsx';
 
-            $scope.scale.reportsShowParams = false;
-            $scope.scale.reportsShowMain = false;
-            $scope.scale.reportsShowReport = true;
-            $scope.scale.reportErrors = [];
-            $scope.scale.showModal = false;
-
-            window.location = uri;
-
-          },
-          function (response) {
-            $scope.scale.reportsShowParams = false;
-            $scope.scale.reportsShowMain = false;
-            $scope.scale.reportsShowReport = true;
-            $scope.scale.showModal = false;
+            $http.get(url).then(
+              function(response) {
+    
+                var uri = 'main/reports/excel/' + encodeURIComponent(response.data.reportid) + '/' + encodeURIComponent($scope.scale.currentReport.name) + '.xlsx';
+    
+                $scope.scale.reportsShowParams = false;
+                $scope.scale.reportsShowMain = false;
+                $scope.scale.reportsShowReport = true;
+                $scope.scale.reportErrors = [];
+                $scope.scale.showModal = false;
+    
+                window.location = uri;
+    
+              },
+              function (response) {
+                $scope.scale.reportsShowParams = false;
+                $scope.scale.reportsShowMain = false;
+                $scope.scale.reportsShowReport = true;
+                $scope.scale.showModal = false;
+              }
+            )
           }
-        )
+
+        );
+
+
+        
 
       };
 
