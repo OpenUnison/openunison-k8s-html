@@ -76,6 +76,15 @@ InputOptions.prototype = {
 
 
       //Methods
+
+      this.formClass = function() {
+        if (this.config.enableThirdColumn) {
+          return "col-md-6";
+        } else {
+          return "col-md-8";
+        }
+      };
+
       this.finishLogout = function() {
           window.location = this.config.logoutURL;
       };
@@ -211,6 +220,8 @@ InputOptions.prototype = {
       
       
       }
+
+      
       
       this.edit_event = function(attr_cfg) {
         

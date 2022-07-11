@@ -57,6 +57,8 @@ limitations under the License.
 			captchaloaded = true;
 		};
 	</script>
+
+	
 	<div class="container">
 		<div ng-show="! scale.isSessionLoaded() && scale.appIsError">
 			<div class="navbar navbar-default" role="navigation">
@@ -191,19 +193,27 @@ limitations under the License.
 							  };
 							</script>
 						<form name="saveUserForm">
-							<div class="row" ng-repeat="attributeConfig in scale.attributeConfigs">
+							<div class="row" ng-repeat="attributeConfig in scale.attributeConfigs" style="margin-top:5px;">
 								<div class="col-md-4" ng-show="attributeConfig.show">{{ attributeConfig.displayName}}
 								</div>
-								<div class="col-md-5" ng-show="attributeConfig.show">
+								<div class="{{ scale.formClass() }}" ng-show="attributeConfig.show">
 
 									<input type="text" ng-show="attributeConfig.type == 'text'"
 										ng-model="scale.newUser.attributes[attributeConfig.name]"
-										aria-label="{{ attributeConfig.displayName }}"
-										ng-change="scale.edit_event(attributeConfig)" />
+										aria-label="{{ attributeConfig.displayName }}" 
+										ng-change="scale.edit_event(attributeConfig)" 
+										style="width: 100%;"/>
 									<input type="text" ng-show="attributeConfig.type == 'text-list'"
 										ng-model="scale.newUser.attributes[attributeConfig.name]"
 										aria-label="{{ attributeConfig.displayName }}"
-										ng-change="scale.change_text_control(attributeConfig)" />
+										ng-change="scale.change_text_control(attributeConfig)" 
+										style="width: 100%;"/>
+
+									<input type="text" ng-show="attributeConfig.type == 'text-list-box'"
+										ng-model="scale.newUser.attributes[attributeConfig.name]"
+										aria-label="{{ attributeConfig.displayName }}"
+										ng-change="scale.change_text_control(attributeConfig)" 
+										style="width: 100%;"/>
 
 									<div class="row" ng-show="attributeConfig.type == 'text-list'"
 										ng-repeat="vals in attributeConfig.values">
@@ -222,13 +232,37 @@ limitations under the License.
 										ng-model="scale.newUser.attributes[attributeConfig.name]"
 										aria-label="{{ attributeConfig.displayName }}"
 										ng-options="option.name for option in attributeConfig.values track by option.value"
-										convert-to-string ng-change="scale.edit_event(attributeConfig)"></select>
+										convert-to-string ng-change="scale.edit_event(attributeConfig)"
+										style="width: 100%;"></select>
+									<!--
+									<select ng-show="attributeConfig.type == 'text-list-box'"
+										ng-model="scale.newUser.attributes[attributeConfig.name]"
+										aria-label="{{ attributeConfig.displayName }}"
+										ng-options="option.name for option in attributeConfig.values track by option.value"
+										convert-to-string ng-change="scale.edit_event(attributeConfig)"
+										style="width: 100%;" multiple></select>
+									-->
+
+									<select ng-show="attributeConfig.type == 'text-list-box'"
+										ng-model="scale.newUser.attributes[attributeConfig.name]"
+										aria-label="{{ attributeConfig.displayName }}"
+										style="width: 100%;" 
+										
+										size="10"
+										
+										>
+									
+									<option label="{{vals.name}}" ng-value="vals.value" ng-repeat="vals in attributeConfig.values" >{{vals.value}}</option>
+									
+									</select>
+
 									<textarea rows="10" cols="50" ng-show="attributeConfig.type == 'textarea'"
 										ng-model="scale.newUser.attributes[attributeConfig.name]"
 										aria-label="{{ attributeConfig.displayName }}"
-										ng-change="scale.edit_event(attributeConfig)"></textarea>
+										ng-change="scale.edit_event(attributeConfig)"
+										style="width: 100%;"></textarea>
 								</div>
-								<div class="col-md-2">{{ scale.newUser.extraData[attributeConfig.name] }}</div>
+								<div ng-show="scale.config.enableThirdColumn" class="col-md-2">{{ scale.newUser.extraData[attributeConfig.name] }}</div>
 							</div>
 							<div class="row" ng-hide="! scale.config.requireReason">
 								<div class="col-md-4">Reason</div>
