@@ -232,6 +232,11 @@ limitations under the License.
         $http.get('ops/user?dn=' + encodeURIComponent(user_dn)).then(
           function(response) {
             $scope.scale.currentUser = response.data;
+
+            //dedupe groups
+            let localCurrentGroups = [...new Set($scope.scale.currentUser.groups)];
+            $scope.scale.currentUser.groups = localCurrentGroups.sort();
+
             this.showForm = false;
             this.showUser = true;
             $scope.scale.showModal = false;

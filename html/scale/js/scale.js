@@ -503,6 +503,12 @@ limitations under the License.
           this.currentGroups = this.user.groups;
         }
 
+        //dedupe groups
+        let localCurrentGroups = [...new Set(this.currentGroups)];
+        this.currentGroups = localCurrentGroups.sort();
+
+
+
         this.loadSaveAttributes();
       };
 
