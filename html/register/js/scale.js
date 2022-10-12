@@ -250,12 +250,14 @@ InputOptions.prototype = {
             $scope.scale.displayName = '';
             $scope.scale.newUser.attributes = {};
             $scope.scale.newUser.extraData = {};
+            $scope.scale.newUser.enabledAttrs = {};
 
             $scope.scale.attributeConfigs = [];
             
             
             for (var i in $scope.scale.config.attributeNameList) {
               $scope.scale.newUser.attributes[$scope.scale.config.attributeNameList[i]] = '';
+              $scope.scale.newUser.enabledAttrs[$scope.scale.config.attributeNameList[i]] = true;
               //$scope.scale.config.attributes[$scope.scale.config.attributeNameList[i]].show = true;
               $scope.scale.attributeConfigs.push($scope.scale.config.attributes[$scope.scale.config.attributeNameList[i]]);
             };

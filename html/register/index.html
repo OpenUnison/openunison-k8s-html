@@ -197,70 +197,117 @@ limitations under the License.
 								<div class="col-md-4" ng-show="attributeConfig.show">{{ attributeConfig.displayName}}
 								</div>
 								<div class="{{ scale.formClass() }}" ng-show="attributeConfig.show">
+									<div class="row"  style="width: 100%;">
+										<div class="col-sm-12">
+										<input type="text" ng-show="attributeConfig.type == 'text'"
+											ng-model="scale.newUser.attributes[attributeConfig.name]"
+											aria-label="{{ attributeConfig.displayName }}" 
+											ng-change="scale.edit_event(attributeConfig)" 
+											style="width: 100%;"/>
+										</div>
+										<div class="col-sm-12">
+										<input type="text" ng-show="attributeConfig.type == 'text-list'"
+											ng-model="scale.newUser.attributes[attributeConfig.name]"
+											aria-label="{{ attributeConfig.displayName }}"
+											ng-change="scale.change_text_control(attributeConfig)" 
+											style="width: 100%;"/>
+										</div>
 
-									<input type="text" ng-show="attributeConfig.type == 'text'"
-										ng-model="scale.newUser.attributes[attributeConfig.name]"
-										aria-label="{{ attributeConfig.displayName }}" 
-										ng-change="scale.edit_event(attributeConfig)" 
-										style="width: 100%;"/>
-									<input type="text" ng-show="attributeConfig.type == 'text-list'"
-										ng-model="scale.newUser.attributes[attributeConfig.name]"
-										aria-label="{{ attributeConfig.displayName }}"
-										ng-change="scale.change_text_control(attributeConfig)" 
-										style="width: 100%;"/>
+										<div class="col-sm-12">
+										<input type="text" ng-show="attributeConfig.type == 'text-list-box'"
+											ng-model="scale.newUser.attributes[attributeConfig.name]"
+											aria-label="{{ attributeConfig.displayName }}"
+											ng-change="scale.change_text_control(attributeConfig)" 
+											style="width: 100%;"/>
+										</div>
+									
+										<div class="col-sm-1">
+											<input type="checkbox" ng-show="attributeConfig.type == 'chk-text-list-box'"
+										
+												ng-model="scale.newUser.enabledAttrs[attributeConfig.name]"
+												ng-change="scale.newUser.attributes[attributeConfig.name] = ''"
+											/>
+										</div>
+										<div class="col-sm-11">
+											<input type="text" ng-show="attributeConfig.type == 'chk-text-list-box'"
+												ng-model="scale.newUser.attributes[attributeConfig.name]"
+												aria-label="{{ attributeConfig.displayName }}"
+												ng-change="scale.change_text_control(attributeConfig)" 
+												ng-disabled="! scale.newUser.enabledAttrs[attributeConfig.name]"
+												style="width: 100%;"
+												/>
+										</div>
+									
+									
 
-									<input type="text" ng-show="attributeConfig.type == 'text-list-box'"
-										ng-model="scale.newUser.attributes[attributeConfig.name]"
-										aria-label="{{ attributeConfig.displayName }}"
-										ng-change="scale.change_text_control(attributeConfig)" 
-										style="width: 100%;"/>
+									
 
-									<div class="row" ng-show="attributeConfig.type == 'text-list'"
-										ng-repeat="vals in attributeConfig.values">
+										<div class="row" ng-show="attributeConfig.type == 'text-list'"
+											ng-repeat="vals in attributeConfig.values">
 
-										<div class="col-md-8">
-											<a href="#"
-												ng-click="scale.newUser.attributes[attributeConfig.name] = vals.value;scale.change_text_control(attributeConfig);">{{vals.name}}</a>
+											<div class="col-md-8">
+												<a href="#"
+													ng-click="scale.newUser.attributes[attributeConfig.name] = vals.value;scale.change_text_control(attributeConfig);">{{vals.name}}</a>
+											</div>
+										</div>
+
+
+
+
+										<div class="col-sm-12">
+										<select ng-show="attributeConfig.type == 'list'"
+											ng-model="scale.newUser.attributes[attributeConfig.name]"
+											aria-label="{{ attributeConfig.displayName }}"
+											ng-options="option.name for option in attributeConfig.values track by option.value"
+											convert-to-string ng-change="scale.edit_event(attributeConfig)"
+											style="width: 100%;"></select>
+										</div>
+										<!--
+										<select ng-show="attributeConfig.type == 'text-list-box'"
+											ng-model="scale.newUser.attributes[attributeConfig.name]"
+											aria-label="{{ attributeConfig.displayName }}"
+											ng-options="option.name for option in attributeConfig.values track by option.value"
+											convert-to-string ng-change="scale.edit_event(attributeConfig)"
+											style="width: 100%;" multiple></select>
+										-->
+										<div class="col-sm-12">
+										<select ng-show="attributeConfig.type == 'text-list-box'"
+											ng-model="scale.newUser.attributes[attributeConfig.name]"
+											aria-label="{{ attributeConfig.displayName }}"
+											style="width: 100%;" 
+											
+											size="10"
+											
+											>
+										
+										<option label="{{vals.name}}" ng-value="vals.value" ng-repeat="vals in attributeConfig.values" >{{vals.value}}</option>
+										
+										</select>
+										</div>
+
+										<div class="col-sm-12">
+										<select ng-show="attributeConfig.type == 'chk-text-list-box'"
+											ng-model="scale.newUser.attributes[attributeConfig.name]"
+											aria-label="{{ attributeConfig.displayName }}"
+											style="width: 100%;" 
+											ng-disabled="! scale.newUser.enabledAttrs[attributeConfig.name]"
+											size="10"
+											
+											>
+										
+										<option label="{{vals.name}}" ng-value="vals.value" ng-repeat="vals in attributeConfig.values" >{{vals.value}}</option>
+										
+										</select>
+										</div>
+
+										<div class="col-sm-12">
+										<textarea rows="10" cols="50" ng-show="attributeConfig.type == 'textarea'"
+											ng-model="scale.newUser.attributes[attributeConfig.name]"
+											aria-label="{{ attributeConfig.displayName }}"
+											ng-change="scale.edit_event(attributeConfig)"
+											style="width: 100%;"></textarea>
 										</div>
 									</div>
-
-
-
-
-
-									<select ng-show="attributeConfig.type == 'list'"
-										ng-model="scale.newUser.attributes[attributeConfig.name]"
-										aria-label="{{ attributeConfig.displayName }}"
-										ng-options="option.name for option in attributeConfig.values track by option.value"
-										convert-to-string ng-change="scale.edit_event(attributeConfig)"
-										style="width: 100%;"></select>
-									<!--
-									<select ng-show="attributeConfig.type == 'text-list-box'"
-										ng-model="scale.newUser.attributes[attributeConfig.name]"
-										aria-label="{{ attributeConfig.displayName }}"
-										ng-options="option.name for option in attributeConfig.values track by option.value"
-										convert-to-string ng-change="scale.edit_event(attributeConfig)"
-										style="width: 100%;" multiple></select>
-									-->
-
-									<select ng-show="attributeConfig.type == 'text-list-box'"
-										ng-model="scale.newUser.attributes[attributeConfig.name]"
-										aria-label="{{ attributeConfig.displayName }}"
-										style="width: 100%;" 
-										
-										size="10"
-										
-										>
-									
-									<option label="{{vals.name}}" ng-value="vals.value" ng-repeat="vals in attributeConfig.values" >{{vals.value}}</option>
-									
-									</select>
-
-									<textarea rows="10" cols="50" ng-show="attributeConfig.type == 'textarea'"
-										ng-model="scale.newUser.attributes[attributeConfig.name]"
-										aria-label="{{ attributeConfig.displayName }}"
-										ng-change="scale.edit_event(attributeConfig)"
-										style="width: 100%;"></textarea>
 								</div>
 								<div ng-show="scale.config.enableThirdColumn" class="col-md-2">{{ scale.newUser.extraData[attributeConfig.name] }}</div>
 							</div>

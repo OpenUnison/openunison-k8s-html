@@ -463,8 +463,28 @@ limitations under the License.
 					<div class="col-md-8">{{ scale.currentApproval.approvalStart | date : 'short' }}</div>
 				</div>
 
-			</div>
+				
 
+			</div>
+			<div class="row">
+				<h3>Additional Request Details</h3>
+				<div class="col-md-6">
+					<h4>Attributes</h4>
+
+
+
+
+					<div class="row" ng-repeat="(key,value) in scale.currentApproval.requestAttributes">
+
+							<div class="col-md-4">
+								<b>{{ key }}</b>
+							</div>
+							<div class="col-md-4">{{ value }}</div>
+
+					</div>
+
+				</div>
+			</div>
 			<div class="row">
 				<h3>Subject Information</h3>
 				<div class="col-md-6">
