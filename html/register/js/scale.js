@@ -224,7 +224,6 @@ InputOptions.prototype = {
       
       
       this.edit_event = function(attr_cfg) {
-        
       	if ('editJavaScriptFunction' in attr_cfg) {
       		eval(attr_cfg.editJavaScriptFunction);
       	}

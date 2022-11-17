@@ -309,7 +309,7 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
-								<div ng-show="scale.config.enableThirdColumn" class="col-md-2">{{ scale.newUser.extraData[attributeConfig.name] }}</div>
+								<div ng-show="scale.config.enableThirdColumn && attributeConfig.show" class="col-md-2">{{ scale.newUser.extraData[attributeConfig.name] }}</div>
 							</div>
 							<div class="row" ng-hide="! scale.config.requireReason">
 								<div class="col-md-4">Reason</div>
