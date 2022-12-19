@@ -1020,8 +1020,8 @@ limitations under the License.
           then(function(response){
             $scope.scale.config = response.data;
 
-            if (! $scope.scale.config.hasOwnProperty('requireReason')) {
-              $scope.scale.config.requireReason = true;
+            if (! $scope.scale.config.hasOwnProperty('requireReasons')) {
+              $scope.scale.config.requireReasons = true;
             }
             
 

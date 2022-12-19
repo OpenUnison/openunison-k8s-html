@@ -331,11 +331,11 @@ limitations under the License.
 					<div class="col-md-3">{{ wf.description }}</div>
 					
 					
-					<div class="col-md-3" ng-show="scale.config.requireReason && ! scale.config.reasonIsList">
+					<div class="col-md-3" ng-show="scale.config.requireReasons && ! scale.config.reasonIsList">
 					  <input type="text" ng-model="wf.reason" placeholder="Supply Reason" required="true" aria-label="Reason for request"/>
 					</div>
 
-					<div class="col-md-3" ng-show="scale.config.requireReason && scale.config.reasonIsList">
+					<div class="col-md-3" ng-show="scale.config.requireReasons && scale.config.reasonIsList">
 										
 						<select 
 						ng-model="wf.reason"
