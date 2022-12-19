@@ -1019,6 +1019,10 @@ limitations under the License.
         $http.get('main/config').
           then(function(response){
             $scope.scale.config = response.data;
+
+            if (! $scope.scale.config.hasOwnProperty('requireReason')) {
+              $scope.scale.config.requireReason = true;
+            }
             
 
             $http.get('main/user').
