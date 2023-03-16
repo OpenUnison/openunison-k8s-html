@@ -810,7 +810,11 @@ limitations under the License.
             //don't care about the response as long as its 200
             $http.get('main/approvals').
               then(function(response) {
-                  $scope.scale.approvals = response.data.approvals;
+                  $scope.scale.approvals = response.data.approvals.sort(
+                    (a,b) => {
+                      return (a.approvalStart - b.approvalStart);
+                    }
+                  );;
 
                   $scope.scale.approvalConfirmDisabled = true;
                   $scope.scale.approvalSuccess = true;
@@ -1060,7 +1064,14 @@ limitations under the License.
                         if ($scope.scale.config.enableApprovals) {
                           $http.get('main/approvals').
                             then(function(response) {
-                              $scope.scale.approvals = response.data.approvals;
+                              $scope.scale.approvals = response.data.approvals.sort(
+                                (a,b) => {
+                                  return (a.approvalStart - b.approvalStart);
+                                }
+                              );
+
+
+
                               $scope.scale.setSessionLoadedComplete();
                             },
                             function(response) {
