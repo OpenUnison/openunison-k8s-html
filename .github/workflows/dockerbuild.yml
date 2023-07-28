@@ -39,7 +39,7 @@ jobs:
       - name: downcase REPO
         run: |
             echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
-            
+
       - name: generate tag
         run: |-
             export PROJ_VERSION="1.0.0"
@@ -61,8 +61,8 @@ jobs:
             ghcr.io/${{ env.REPO }}:${{ env.SHORT_TAG }}
             ghcr.io/${{ env.REPO }}:latest
 
-            - name: sign images
-            run: |-
+      - name: sign images
+        run: |-
               cosign sign -y docker.io/tremolosecurity/openunison-k8s-html:${{ env.TAG }}
               cosign sign -y ghcr.io/${{ env.REPO }}:${{ env.TAG }}
     
